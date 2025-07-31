@@ -1,0 +1,1 @@
+# Zobrazenie náradia a formuláre
