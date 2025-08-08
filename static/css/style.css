@@ -1,0 +1,4 @@
+body { background-color: #0f1115; }
+h1 { margin-bottom: 1rem; }
+.table-hover tbody tr:hover { filter: brightness(1.1); }
+.badge { font-size: 0.85rem; }

@@ -1,41 +1,14 @@
+import os
 from pathlib import Path
-
-# ZÁKLADNÉ NASTAVENIA
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-1234567890demo'
-DEBUG = True
+# ... ostatné nastavenia ...
 
-ALLOWED_HOSTS = ["*"]
-
-# APLIKÁCIE
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'tools',  # naša appka
-]
-
-# MIDDLEWARE
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
-ROOT_URLCONF = 'tooltracker.urls'
-
+# Šablóny – aby Django našlo priečinok 'templates' v koreňi
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # ak budeš mať vlastné šablóny
+        'DIRS': [BASE_DIR / 'templates'],   # <— toto pridaj/nezabudni
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -48,40 +21,24 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tooltracker.wsgi.application'
+# Statické súbory
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]     # kde máš vlastné CSS/JS
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')       # kam sa zbalí pre produkciu
 
-# DATABÁZA – SQLite (lokálna)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# HESLOVÉ VALIDÁTORY
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {'min_length': 8},
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+# Whitenoise na Render (servovanie statiky)
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',         # <— vlož hneď po Security
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# LOKALIZÁCIA
-LANGUAGE_CODE = 'sk'
-TIME_ZONE = 'Europe/Bratislava'
-USE_I18N = True
-USE_TZ = True
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# STATICKÉ SÚBORY
-STATIC_URL = 'static/'
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Uistime sa, že hosty sú povolené
+ALLOWED_HOSTS = ["*"]
