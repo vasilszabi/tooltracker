@@ -18,13 +18,21 @@
             <td>{{ tool.category }}</td>
             <td>{{ tool.serial_number }}</td>
             <td>
-                {% if tool.status == "Na sklade" %}
-                    <span class="badge bg-success">{{ tool.status }}</span>
-                {% elif tool.status == "Vydané" %}
-                    <span class="badge bg-warning text-dark">{{ tool.status }}</span>
-                {% else %}
-                    <span class="badge bg-secondary">{{ tool.status }}</span>
-                {% endif %}
+                {% with code=tool.status label=tool.get_status_display %}
+                    {% if code == "sklad" %}
+                        <span class="badge bg-success">{{ label }}</span>
+                    {% elif code == "vydane" %}
+                        <span class="badge bg-warning text-dark">{{ label }}</span>
+                    {% elif code == "poskodene" %}
+                        <span class="badge bg-danger">{{ label }}</span>
+                    {% elif code == "v_servise" or code == "cakajuci_servis" %}
+                        <span class="badge bg-info text-dark">{{ label }}</span>
+                    {% elif code == "vyradene" or code == "stratene" %}
+                        <span class="badge bg-secondary">{{ label }}</span>
+                    {% else %}
+                        <span class="badge bg-light text-dark">{{ label }}</span>
+                    {% endif %}
+                {% endwith %}
             </td>
         </tr>
         {% endfor %}
