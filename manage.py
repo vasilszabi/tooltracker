@@ -16,6 +16,8 @@ if __name__ == "__main__":
                 "admin", "admin@example.com", "admin123"
             )
             print("✅ Admin account created: admin / admin123")
+        else:
+            print("ℹ️ Admin account already exists, skipping creation.")
     except Exception as e:
         print(f"⚠️ Could not create admin automatically: {e}")
 
