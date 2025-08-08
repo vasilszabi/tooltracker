@@ -21,7 +21,11 @@
     <tbody>
         {% for tool in tools %}
         <tr>
-            <td>{{ tool.name }}</td>
+            <td>
+    <a class="link-light text-decoration-underline" href="{% url 'tool_detail' tool.id %}">
+        {{ tool.name }}
+    </a>
+</td>
             <td>{{ tool.type }}</td>
             <td>{{ tool.category }}</td>
             <td>{{ tool.serial_number }}</td>

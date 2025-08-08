@@ -6,3 +6,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", dashboard, name="dashboard"),   # domov = prehľad náradia
 ]
+
+from tools.views import dashboard, tool_detail
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", dashboard, name="dashboard"),
+    path("tool/<int:pk>/", tool_detail, name="tool_detail"),
+]
